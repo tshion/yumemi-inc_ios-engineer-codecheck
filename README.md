@@ -36,12 +36,31 @@ GitHub リポジトリを検索できるiOS アプリ。
     * レビュー方針
     * リリースの流れ
     * 備考
+* [先方からの要求事項](https://github.com/tshion/yumemi-inc_android-engineer-codecheck/blob/develop/docs/Requirements.md) (※別サイト)
+    * アプリの使い方
+    * システム関連
+* [仕様メモ](https://github.com/tshion/yumemi-inc_android-engineer-codecheck/blob/develop/docs/SpecNotes.md) (※別サイト)
+    * アプリ関連
+        * 画面構成とデザイン
+        * データの取り扱い方針
+        * バージョニング
+        * ログの取り扱い方針
+    * 外部システム関連
+        * GitHub REST API
+        * クラッシュ分析ツール
+    * 備考
+        * データセーフティ
+* 設計メモ
+    * TODO
+* 各パッケージのREADME
+    * TODO
 
 
 
 ## 関連リンク
 * 複製元リポジトリ: [yumemi-inc/ios-engineer-codecheck]
     * [複製時点のREADME](./docs/README.original.md)
+* [Android 版の開発リポジトリ](https://github.com/tshion/yumemi-inc_android-engineer-codecheck)
 
 
 

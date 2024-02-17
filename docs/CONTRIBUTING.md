@@ -6,14 +6,14 @@
 
 ## 開発環境について
 下記のツールをセットアップ後に、
-iOSEngineerCodeCheck.xcodeproj を
-Xcode で開くことで開発作業をする環境が整います。
+Xcode で[iOSEngineerCodeCheck.xcodeproj](./iOSEngineerCodeCheck.xcodeproj) を開くことで、
+開発作業に取り掛かれるようになります。
 
 もし何か分からないことが出てきたら、声をかけてください。
 
 * macOS
 * GitHub
-* Xcode
+* Xcode 15.2
 
 ### 任意
 下記のツールは無くても開発できますが、あると便利なので、興味に応じて試してみてください。
@@ -113,11 +113,6 @@ released | リリースの記録ブランチ
 
 ### メモを残したくなったら
 本リポジトリでは下記を用意しているので、よさげなところがあればそこに追記してください。
-
-* 開発にまつわることを書きたい
-    * [設計メモ](./Architecture.md)
-    * 各モジュールのREADME
-* 仕様にまつわることを書きたい → [仕様メモ](./SpecNotes.md)
 
 それ以外に何かあれば、`docs/` 配下で作業し、Pull Request を出してください。
 
