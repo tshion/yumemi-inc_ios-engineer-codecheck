@@ -70,6 +70,8 @@ Xcode で[iOSEngineerCodeCheck.xcodeproj](./iOSEngineerCodeCheck.xcodeproj) を�
 ## リリース作業の流れ
 1. リリース対象Pull Request が`develop` ブランチに全てマージされていることを確認する
 1. `develop` ブランチに切り替え、アプリバージョンを更新し、コミットする
+    * アプリバージョンはVSCode タスク「アプリバージョンの更新」で更新することもできる
+        * Ruby が実行できる環境が必要
 1. `develop` ブランチから`released` ブランチにPull Request を作成する
     * 例: [Android PR #16](https://github.com/tshion/yumemi-inc_android-engineer-codecheck/pull/16)
 1. 問題なければPull Request をマージする
