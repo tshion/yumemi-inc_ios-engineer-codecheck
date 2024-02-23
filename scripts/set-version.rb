@@ -4,8 +4,15 @@
 # * 前提: プロジェクトルートで実行すること
 
 
-# 作業対象のパス設定
-PATH = "#{Dir.pwd}/Build.xcconfig"
+require 'pathname'
+
+
+# 作業対象ファイルの設定と検証
+PATH = Pathname.new(__dir__).join("../Build.xcconfig")
+unless FileTest.exist?(PATH) then
+    puts("#{PATH} にファイルが存在しません")
+    exit 1
+end
 
 
 # コマンドライン引数の検証
