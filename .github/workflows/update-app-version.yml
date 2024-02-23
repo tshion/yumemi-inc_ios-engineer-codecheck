@@ -1,0 +1,56 @@
+name: Update app version
+
+on:
+  workflow_dispatch:
+    inputs:
+      versionMajor:
+        description: 'バージョン情報: major'
+        required: true
+        type: string
+      versionMinor:
+        description: 'バージョン情報: minor'
+        required: true
+        type: string
+      versionPatch:
+        description: 'バージョン情報: patch'
+        required: true
+        type: string
+
+jobs:
+  update-app-version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      # https://github.com/actions/checkout
+      - uses: actions/checkout@v4
+
+      # https://github.com/ruby/setup-ruby
+      - uses: ruby/setup-ruby@v1
+
+      - name: Update app version
+        id: app-version
+        run: |
+          ruby scripts/set-version.rb ${{ inputs.versionMajor }} ${{ inputs.versionMinor }} ${{ inputs.versionPatch }}
+          echo "$(ruby scripts/pick-version-name.rb)" > TMP_LOG
+          echo "version-name=$(cat TMP_LOG)" >> "$GITHUB_OUTPUT"
+
+      - name: Setup git settings
+        run: |
+          git config --local user.email "github.actions@example.com"
+          git config --local user.name "GitHub Actions"
+          echo "Finish setup git"
+
+      - name: Git push
+        run: |
+          git switch -c "feature/${{ steps.app-version.outputs.version-name }}"
+          git add Build.xcconfig
+          git commit -m "Update app version ${{ steps.app-version.outputs.version-name }}"
+          git push origin
+          echo "Updated git"
+
+      - name: Create pull request
+        run: gh pr create --title "Update app version ${{ steps.app-version.outputs.version-name }}" --body ""
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
