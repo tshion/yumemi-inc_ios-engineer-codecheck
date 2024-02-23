@@ -11,25 +11,25 @@ PATH = "#{Dir.pwd}/Build.xcconfig"
 # コマンドライン引数の検証
 unless ARGV.length == 3 then
     puts("引数を３つ指定してください")
-    exit
+    exit 1
 end
 
 MAJOR = ARGV[0]
 unless /^\d+$/.match?(MAJOR) then
     puts("major には正整数を指定してください")
-    exit
+    exit 1
 end
 
 MINOR = ARGV[1]
 unless /^\d{1,2}$/.match?(MINOR) then
     puts("minor には1 ~ 2桁の正整数を指定してください")
-    exit
+    exit 1
 end
 
 PATCH = ARGV[2]
 unless /^\d{1,2}$/.match?(PATCH) then
     puts("patch には1 ~ 2桁の正整数を指定してください")
-    exit
+    exit 1
 end
 
 
