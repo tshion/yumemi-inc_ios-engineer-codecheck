@@ -34,21 +34,20 @@ jobs:
         run: |
           ruby scripts/set-version.rb ${{ inputs.versionMajor }} ${{ inputs.versionMinor }} ${{ inputs.versionPatch }}
           echo "$(ruby scripts/pick-version-name.rb)" > TMP_LOG
+          echo "branch-name=feature/update_$(cat TMP_LOG)" >> "$GITHUB_OUTPUT"
           echo "version-name=$(cat TMP_LOG)" >> "$GITHUB_OUTPUT"
 
       - name: Setup git settings
         run: |
           git config --local user.email "github.actions@example.com"
           git config --local user.name "GitHub Actions"
-          echo "Finish setup git"
 
       - name: Git push
         run: |
-          git switch -c "feature/${{ steps.app-version.outputs.version-name }}"
+          git switch -c ${{ steps.app-version.outputs.branch-name }}
           git add Build.xcconfig
-          git commit -m "Update app version ${{ steps.app-version.outputs.version-name }}"
-          git push origin
-          echo "Updated git"
+          git commit -m "Update ${{ steps.app-version.outputs.version-name }}"
+          git push --set-upstream origin ${{ steps.app-version.outputs.branch-name }}
 
       - name: Create pull request
         run: gh pr create --title "Update app version ${{ steps.app-version.outputs.version-name }}" --body ""
