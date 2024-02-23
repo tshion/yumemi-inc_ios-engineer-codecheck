@@ -18,6 +18,7 @@ Xcode で[iOSEngineerCodeCheck.xcodeproj](./iOSEngineerCodeCheck.xcodeproj) を�
 ### 任意
 下記のツールは無くても開発できますが、あると便利なので、興味に応じて試してみてください。
 
+* [rbenv](https://github.com/rbenv/rbenv)
 * [Visual Studio Code](https://code.visualstudio.com/)
     * .gitignore の記述
     * GitHub Actions の構築
@@ -25,6 +26,7 @@ Xcode で[iOSEngineerCodeCheck.xcodeproj](./iOSEngineerCodeCheck.xcodeproj) を�
     * Markdown の記述
     * [OpenAPI](https://www.openapis.org/) の記述
     * [PlantUML](https://plantuml.com/) の記述
+    * Ruby の記述
 
 
 
@@ -70,6 +72,8 @@ Xcode で[iOSEngineerCodeCheck.xcodeproj](./iOSEngineerCodeCheck.xcodeproj) を�
 ## リリース作業の流れ
 1. リリース対象Pull Request が`develop` ブランチに全てマージされていることを確認する
 1. `develop` ブランチに切り替え、アプリバージョンを更新し、コミットする
+    * アプリバージョンはVSCode タスク「アプリバージョンの更新」で更新することもできる
+        * Ruby が実行できる環境が必要
 1. `develop` ブランチから`released` ブランチにPull Request を作成する
     * 例: [Android PR #16](https://github.com/tshion/yumemi-inc_android-engineer-codecheck/pull/16)
 1. 問題なければPull Request をマージする

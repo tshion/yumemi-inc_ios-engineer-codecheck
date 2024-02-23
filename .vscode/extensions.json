@@ -1,7 +1,9 @@
 {
     "recommendations": [
+        "editorconfig.editorconfig",
         "github.vscode-pull-request-github",
         "jebbs.plantuml",
         "redhat.vscode-yaml",
+        "shopify.ruby-lsp",
     ]
 }
