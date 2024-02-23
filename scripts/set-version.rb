@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # 注意事項
-# * 前提: プロジェクトルートで実行すること
+# * ".ruby-version" に記載されているバージョンで実行してください
 
 
 require 'pathname'

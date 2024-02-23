@@ -18,6 +18,7 @@ Xcode で[iOSEngineerCodeCheck.xcodeproj](./iOSEngineerCodeCheck.xcodeproj) を�
 ### 任意
 下記のツールは無くても開発できますが、あると便利なので、興味に応じて試してみてください。
 
+* [rbenv](https://github.com/rbenv/rbenv)
 * [Visual Studio Code](https://code.visualstudio.com/)
     * .gitignore の記述
     * GitHub Actions の構築
@@ -25,6 +26,7 @@ Xcode で[iOSEngineerCodeCheck.xcodeproj](./iOSEngineerCodeCheck.xcodeproj) を�
     * Markdown の記述
     * [OpenAPI](https://www.openapis.org/) の記述
     * [PlantUML](https://plantuml.com/) の記述
+    * Ruby の記述
 
 
 
