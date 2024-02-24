@@ -1,0 +1,6 @@
+{
+    "githubPullRequests.ignoredPullRequestBranches": [
+        "develop"
+    ],
+    "rubyLsp.rubyVersionManager": "rbenv",
+}

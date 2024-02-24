@@ -1,0 +1,55 @@
+name: Update app version
+
+on:
+  workflow_dispatch:
+    inputs:
+      versionMajor:
+        description: 'バージョン情報: major'
+        required: true
+        type: string
+      versionMinor:
+        description: 'バージョン情報: minor'
+        required: true
+        type: string
+      versionPatch:
+        description: 'バージョン情報: patch'
+        required: true
+        type: string
+
+jobs:
+  update-app-version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      # https://github.com/actions/checkout
+      - uses: actions/checkout@v4
+
+      # https://github.com/ruby/setup-ruby
+      - uses: ruby/setup-ruby@v1
+
+      - name: Update app version
+        id: app-version
+        run: |
+          ruby scripts/set-version.rb ${{ inputs.versionMajor }} ${{ inputs.versionMinor }} ${{ inputs.versionPatch }}
+          echo "$(ruby scripts/pick-version-name.rb)" > TMP_LOG
+          echo "branch-name=feature/update_$(cat TMP_LOG)" >> "$GITHUB_OUTPUT"
+          echo "message=アプリバージョン更新: $(cat TMP_LOG)" >> "$GITHUB_OUTPUT"
+
+      - name: Setup git settings
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitHub Actions"
+
+      - name: Git push
+        run: |
+          git switch -c ${{ steps.app-version.outputs.branch-name }}
+          git add Build.xcconfig
+          git commit -m "${{ steps.app-version.outputs.message }}"
+          git push --set-upstream origin ${{ steps.app-version.outputs.branch-name }}
+
+      - name: Create pull request
+        run: gh pr create --title "${{ steps.app-version.outputs.message }}" --body ""
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
