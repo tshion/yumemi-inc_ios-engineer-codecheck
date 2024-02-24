@@ -51,6 +51,7 @@ Xcode で[iOSEngineerCodeCheck.xcodeproj](./iOSEngineerCodeCheck.xcodeproj) を�
     * 名前は`hotfix/???` という形式で、`???` の部分を良い感じに設定してください
 1. バグ修正をする
 1. アプリバージョンを更新する
+    * 後述する「リリース作業の流れ」にあるアプリバージョンを更新するGitHub Actions も利用できます
 1. 作業が完了したら下記ブランチそれぞれに対してPull Request を作成する
     * `released` ブランチ -> 例: [Android PR #51](https://github.com/tshion/yumemi-inc_android-engineer-codecheck/pull/51)
     * `develop` ブランチ -> 例: [Android PR #52](https://github.com/tshion/yumemi-inc_android-engineer-codecheck/pull/52)
@@ -71,13 +72,17 @@ Xcode で[iOSEngineerCodeCheck.xcodeproj](./iOSEngineerCodeCheck.xcodeproj) を�
 
 ## リリース作業の流れ
 1. リリース対象Pull Request が`develop` ブランチに全てマージされていることを確認する
-1. `develop` ブランチに切り替え、アプリバージョンを更新し、コミットする
-    * アプリバージョンはVSCode タスク「アプリバージョンの更新」で更新することもできる
-        * Ruby が実行できる環境が必要
-1. `develop` ブランチから`released` ブランチにPull Request を作成する
-    * 例: [Android PR #16](https://github.com/tshion/yumemi-inc_android-engineer-codecheck/pull/16)
-1. 問題なければPull Request をマージする
-1. GitHub Actions が自動実行されるので、様子を見る
+1. https://github.com/tshion/yumemi-inc_ios-engineer-codecheck/actions/workflows/update-app-version.yml に移動し、GitHub Actions を実行する
+    * アプリバージョンを更新するPull Request が作成されます
+    * ローカルの場合は、Ruby の実行環境を整備した上で、下記を実行し、Pull Request を作成してください
+        * VSCode タスク「アプリバージョンの更新」を実行する
+        * プロジェクトルートで `ruby scripts/set-version.rb x y z` を実行する
+1. 前の手順で作成したPull Request に問題がなければマージする
+1. `released` ブランチへのマージPull Request が作成されるはずなので、しばらく待つ
+    * 手動実行する場合は、下記に移動してください
+        * https://github.com/tshion/yumemi-inc_ios-engineer-codecheck/actions/workflows/create-merge-pr.yml
+1. 前の手順で作成したPull Request に問題がなければマージする
+1. GitHub Releases が自動生成されるので、様子を見る
 
 ※`hotfix` ブランチの場合は、`released` ブランチに対してPull Request を作成するので、それをマージすればリリース処理が走ります
 
