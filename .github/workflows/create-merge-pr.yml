@@ -4,6 +4,8 @@ on:
   pull_request:
     types:
       - closed
+    branches-ignore:
+      - 'released'
     paths:
       - 'Build.xcconfig'
   workflow_dispatch:
