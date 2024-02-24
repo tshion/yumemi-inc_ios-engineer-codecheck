@@ -1,0 +1,35 @@
+name: Create merge pull request
+
+on:
+  pull_request:
+    types:
+      - closed
+    paths:
+      - 'Build.xcconfig'
+  workflow_dispatch:
+
+jobs:
+  create-merge-pr:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'アプリバージョン更新'))
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      # https://github.com/actions/checkout
+      - uses: actions/checkout@v4
+
+      # https://github.com/ruby/setup-ruby
+      - uses: ruby/setup-ruby@v1
+
+      - name: Pick version name
+        id: app-version
+        run: |
+          echo "$(ruby scripts/pick-version-name.rb)" > TMP_LOG
+          echo "message=Merge $(cat TMP_LOG)" >> "$GITHUB_OUTPUT"
+
+      - name: Create pull request
+        run: gh pr create --base released --title "${{ steps.app-version.outputs.message }}" --body ""
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
