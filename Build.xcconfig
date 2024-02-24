@@ -1,5 +1,5 @@
 // アプリバージョンの整理番号
-APP_VERSION_CODE = 1
+APP_VERSION_CODE = 102
 
 // アプリバージョンの文字表記
-APP_VERSION_NAME = 1.0
+APP_VERSION_NAME = 0.1.2
