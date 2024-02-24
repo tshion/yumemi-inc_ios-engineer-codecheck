@@ -39,7 +39,7 @@ jobs:
 
       - name: Setup git settings
         run: |
-          git config --local user.email "github.actions@example.com"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "GitHub Actions"
 
       - name: Git push
@@ -50,6 +50,6 @@ jobs:
           git push --set-upstream origin ${{ steps.app-version.outputs.branch-name }}
 
       - name: Create pull request
-        run: gh pr create --title "Update app version ${{ steps.app-version.outputs.version-name }}" --body ""
+        run: 'gh pr create --title "アプリバージョン更新: ${{ steps.app-version.outputs.version-name }}" --body ""'
         env:
           GITHUB_TOKEN: ${{ github.token }}
