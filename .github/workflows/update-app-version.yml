@@ -35,7 +35,7 @@ jobs:
           ruby scripts/set-version.rb ${{ inputs.versionMajor }} ${{ inputs.versionMinor }} ${{ inputs.versionPatch }}
           echo "$(ruby scripts/pick-version-name.rb)" > TMP_LOG
           echo "branch-name=feature/update_$(cat TMP_LOG)" >> "$GITHUB_OUTPUT"
-          echo "version-name=$(cat TMP_LOG)" >> "$GITHUB_OUTPUT"
+          echo "message=アプリバージョン更新: $(cat TMP_LOG)" >> "$GITHUB_OUTPUT"
 
       - name: Setup git settings
         run: |
@@ -46,10 +46,10 @@ jobs:
         run: |
           git switch -c ${{ steps.app-version.outputs.branch-name }}
           git add Build.xcconfig
-          git commit -m "Update ${{ steps.app-version.outputs.version-name }}"
+          git commit -m "${{ steps.app-version.outputs.message }}"
           git push --set-upstream origin ${{ steps.app-version.outputs.branch-name }}
 
       - name: Create pull request
-        run: 'gh pr create --title "アプリバージョン更新: ${{ steps.app-version.outputs.version-name }}" --body ""'
+        run: gh pr create --title "${{ steps.app-version.outputs.message }}" --body ""
         env:
           GITHUB_TOKEN: ${{ github.token }}
