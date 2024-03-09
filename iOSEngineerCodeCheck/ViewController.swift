@@ -85,8 +85,9 @@ class ViewController: UITableViewController, UISearchBarDelegate {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 画面遷移時に呼ばれる
         idx = indexPath.row
-        performSegue(withIdentifier: "Detail", sender: self)
-        
+        let params = DetailViewParams.parse(repo[idx])
+        let vcDetail = DetailViewController.newInstance(params)
+        navigationController?.pushViewController(vcDetail, animated: true)
     }
     
 }
