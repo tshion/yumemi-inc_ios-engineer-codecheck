@@ -18,10 +18,17 @@ class DetailViewController : UIViewController {
     /// 画面遷移パラメータ
     private let args: DetailViewParams
 
-    /// この画面で基礎になるView
-    private lazy var viewRoot = {
+    /// 画面表示のメイン部分
+    private lazy var viewBody = {
         let view = UIStackView()
         view.axis = .vertical
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    /// アバター画像
+    private lazy var viewImage = {
+        let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -46,23 +53,35 @@ class DetailViewController : UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        viewTitle.text = args.fullName
-        viewRoot.addSubview(viewTitle)
+        
+        if let url = args.avatarUrl {
+            URLSession.shared.dataTask(with: URL(string: url)!) { (data, res, err) in
+                let img = UIImage(data: data!)!
+                DispatchQueue.main.async { [weak self] in
+                    self?.viewImage.image = img
+                }
+            }.resume()
+        }
+        viewBody.addSubview(viewImage)
 
         let viewScroll = UIScrollView()
-        viewScroll.backgroundColor = .white
+        viewScroll.backgroundColor = .red
         viewScroll.translatesAutoresizingMaskIntoConstraints = false
-        viewScroll.addSubview(viewRoot)
+        viewScroll.addSubview(viewBody)
+
+        view.backgroundColor = .white
         view.addSubview(viewScroll)
 
         NSLayoutConstraint.activate([
-            viewScroll.topAnchor.constraint(equalTo: view.topAnchor),
+            viewScroll.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             viewScroll.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             viewScroll.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             viewScroll.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
-//            viewTitle.centerXAnchor.constraint(equalTo: viewRoot.centerXAnchor),
+            viewBody.centerXAnchor.constraint(equalTo: viewScroll.centerXAnchor),
+
+            viewImage.heightAnchor.constraint(equalTo: viewImage.widthAnchor),
+            viewImage.centerXAnchor.constraint(equalTo: viewBody.centerXAnchor),
         ])
     }
 }
