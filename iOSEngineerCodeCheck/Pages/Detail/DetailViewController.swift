@@ -18,10 +18,10 @@ class DetailViewController : UIViewController {
     /// 画面遷移パラメータ
     private let args: DetailViewParams
 
-    /// 画面表示のメイン部分
-    private lazy var viewBody = {
-        let view = UIStackView()
-        view.axis = .vertical
+    /// フォーク数
+    private lazy var viewForks = {
+        let view = UILabel()
+        view.text = "\(args.forksCount) forks"
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -33,9 +33,42 @@ class DetailViewController : UIViewController {
         return view
     }()
 
+    /// Issue 数
+    private lazy var viewIssues = {
+        let view = UILabel()
+        view.text = "\(args.openIssuesCount) open issues"
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    /// プログラミング言語
+    private lazy var viewLanguage = {
+        let view = UILabel()
+        view.text = "Written in \(args.language)"
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    /// スター数
+    private lazy var viewStars = {
+        let view = UILabel()
+        view.text = "\(args.stargazersCount) stars"
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
     /// タイトル(リポジトリ名)
     private lazy var viewTitle = {
         let view = UILabel()
+        view.text = args.fullName
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    /// ウォッチ数
+    private lazy var viewWatchers = {
+        let view = UILabel()
+        view.text = "\(args.wachersCount) watchers"
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -53,6 +86,20 @@ class DetailViewController : UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        view.backgroundColor = .white
+
+        let viewScroll = UIScrollView()
+        viewScroll.backgroundColor = .red // TODO
+        viewScroll.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(viewScroll)
+
+        let viewBody = UIStackView()
+        viewBody.alignment = .fill
+        viewBody.axis = .vertical
+        viewBody.backgroundColor = .yellow // TODO
+        viewBody.translatesAutoresizingMaskIntoConstraints = false
+        viewScroll.addSubview(viewBody)
         
         if let avatarUrl = args.avatarUrl, let url = URL(string: avatarUrl) {
             URLSession.shared.dataTask(with: url) { (data, res, err) in
@@ -62,26 +109,44 @@ class DetailViewController : UIViewController {
                 }
             }.resume()
         }
-        viewBody.addSubview(viewImage)
+        viewBody.addArrangedSubview(viewImage)
+ 
+        viewBody.addArrangedSubview(viewTitle)
 
-        let viewScroll = UIScrollView()
-        viewScroll.backgroundColor = .red
-        viewScroll.translatesAutoresizingMaskIntoConstraints = false
-        viewScroll.addSubview(viewBody)
+        let viewColumns = UIStackView()
+        viewColumns.alignment = .top
+        viewColumns.axis = .horizontal
+        viewColumns.translatesAutoresizingMaskIntoConstraints = false
+        viewBody.addArrangedSubview(viewColumns)
 
-        view.backgroundColor = .white
-        view.addSubview(viewScroll)
+        viewColumns.addArrangedSubview(viewLanguage)
+
+        let viewStats = UIStackView()
+        viewStats.alignment = .trailing
+        viewStats.axis = .vertical
+        viewStats.translatesAutoresizingMaskIntoConstraints = false
+        viewColumns.addArrangedSubview(viewStats)
+
+        viewStats.addArrangedSubview(viewStars)
+        viewStats.addArrangedSubview(viewWatchers)
+        viewStats.addArrangedSubview(viewForks)
+        viewStats.addArrangedSubview(viewIssues)
 
         NSLayoutConstraint.activate([
             viewScroll.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             viewScroll.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             viewScroll.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            viewScroll.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            viewScroll.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
 
-            viewBody.centerXAnchor.constraint(equalTo: viewScroll.centerXAnchor),
+            viewBody.topAnchor.constraint(equalTo: viewScroll.topAnchor),
+            viewBody.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            viewBody.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            viewBody.bottomAnchor.constraint(equalTo: viewScroll.bottomAnchor),
 
             viewImage.heightAnchor.constraint(equalTo: viewImage.widthAnchor),
             viewImage.centerXAnchor.constraint(equalTo: viewBody.centerXAnchor),
+
+            viewTitle.centerXAnchor.constraint(equalTo: viewBody.centerXAnchor),
         ])
     }
 }
