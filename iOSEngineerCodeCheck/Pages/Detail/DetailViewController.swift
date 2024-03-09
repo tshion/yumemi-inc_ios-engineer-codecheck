@@ -54,8 +54,8 @@ class DetailViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let url = args.avatarUrl {
-            URLSession.shared.dataTask(with: URL(string: url)!) { (data, res, err) in
+        if let avatarUrl = args.avatarUrl, let url = URL(string: avatarUrl) {
+            URLSession.shared.dataTask(with: url) { (data, res, err) in
                 let img = UIImage(data: data!)!
                 DispatchQueue.main.async { [weak self] in
                     self?.viewImage.image = img
