@@ -16,11 +16,7 @@ class DetailViewController : UIViewController {
 
     
     /// 画面遷移パラメータ
-    private var args: DetailViewParams? = nil
-
-//    private lazy var viewImage = {
-//        
-//    }()
+    private let args: DetailViewParams
 
     /// この画面で基礎になるView
     private lazy var viewRoot = {
@@ -37,21 +33,21 @@ class DetailViewController : UIViewController {
         return view
     }()
 
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     init(args: DetailViewParams) {
-        super.init(nibName: nil, bundle: nil)
         self.args = args
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("Always initialize DetailViewController using init(args:)")
     }
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        viewTitle.text = args?.fullName
+        viewTitle.text = args.fullName
         viewRoot.addSubview(viewTitle)
 
         let viewScroll = UIScrollView()
